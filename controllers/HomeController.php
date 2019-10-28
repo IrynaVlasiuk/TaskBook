@@ -5,6 +5,13 @@ class HomeController extends ProtectedController
 {
     public static function index($page, $column, $order)
     {
+        session_start();
+        $response = null;
+        if(isset($_SESSION['response_data'])) {
+            $response = unserialize($_SESSION['response_data']);
+            $_SESSION['response_data'] = null;
+        }
+
         $records_per_page = 3;
         $page = $page == NULL ? 1: $page;
         $offset = ($page-1) * $records_per_page;
@@ -17,6 +24,6 @@ class HomeController extends ProtectedController
             $data =  self::query("SELECT * FROM tasks GROUP BY id LIMIT ".$offset.",". $records_per_page);
         }
 
-        return self::renderView('home', $data, $page, $total_pages);
+        return self::renderView('home', $data, $page, $total_pages, $response);
     }
 }

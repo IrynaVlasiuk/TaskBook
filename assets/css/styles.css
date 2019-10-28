@@ -110,7 +110,7 @@
     color: white;
 }
 
-.success-msg {
+.success.msg {
     height: 50px;
     color: #FFFFFF;
     background-color: #66CDAA;
@@ -120,7 +120,7 @@
     right: 0;
 }
 
-.error-msg {
+.error.msg {
     height: 50px;
     color: #FFFFFF;
     background-color: #F08080;

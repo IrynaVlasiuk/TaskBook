@@ -39,6 +39,7 @@ if(isset($_COOKIE['jwt'])): ?>
 
 <div class="container">
     <?php
+    if(is_array($data)) :
     foreach ($data as $task) {
         ?>
         <div class="row item">
@@ -54,7 +55,9 @@ if(isset($_COOKIE['jwt'])): ?>
                 <button type="button" class="edit-task" task_id="<?php echo $task["id"]; ?>">Edit</button>
             </div>
         </div>
-        <?php } ?>
+        <?php }
+    endif;
+    ?>
 </div>
 
 <?php else: ?>
@@ -90,9 +93,9 @@ if(isset($_COOKIE['jwt'])): ?>
                 let data = {task_id: id, description: description};
                 let jwt = $.cookie("jwt");
                 $.ajax({
-                    type: "POST", //GET, POST, PUT
-                    url: 'edit-task',  //the url to call
-                    data: data,     //Data sent to server
+                    type: "POST",
+                    url: 'edit-task',
+                    data: data,
                     beforeSend: function (xhr) {   //Include the bearer token in header
                         xhr.setRequestHeader("Authorization", 'Bearer '+ jwt);
                     }

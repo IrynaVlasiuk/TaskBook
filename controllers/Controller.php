@@ -6,7 +6,7 @@ class Controller extends Repository
     /**
      * @param $viewName
      */
-    public static function renderView($viewName, $data = "", $page = 1, $total_pages = 1)
+    public static function renderView($viewName, $data = "", $page = 1, $total_pages = 1, $response = null)
     {
         require_once 'views/'.$viewName.'.php';
     }

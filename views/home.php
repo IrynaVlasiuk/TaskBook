@@ -67,7 +67,7 @@ $timeout_duration = 1800;
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" value="Login" id="modal-login">Send</button>
+                    <button type="button" class="btn btn-primary" value="Login" id="modal-login">Login</button>
                 </div>
             </div>
         </div>
@@ -110,13 +110,15 @@ $timeout_duration = 1800;
 
     <div class="title">Tasks List</div>
     <div class="container">
-     <?php if($_COOKIE['response-status'] == "OK") : ?>
-     <div class="success-msg"><?php echo $_COOKIE['response-message']; ?></div>
-     <?php elseif($_COOKIE['response-status'] == "ERROR"):?>
-     <div class="error-msg"><?php echo $_COOKIE['response-message']; ?></div>
-    <?php endif;?>
+     <?php if(!empty($response)):?>
+         <?php if($response->isSuccess) : ?>
+         <div class="success msg"><?php echo $response->message; ?></div>
+         <?php else:?>
+         <div class="error msg"><?php echo $response->message; ?></div>
+        <?php endif;?>
+     <?php endif;?>
 <?php
-
+if(is_array($data)) :
 foreach ($data as $task) {
     ?>
     <div class="row item">
@@ -134,31 +136,9 @@ foreach ($data as $task) {
     </div>
 <?php
 }
-
+endif;
 ?>
 </div>
-<!--<!--start pagination-->-->
-<!--    <div class="block-pagination">-->
-<!--        <ul class="pagination justify-content-center">-->
-<!--            <li class="page-item">-->
-<!--                <a class="page-link" href="--><?php //if($page == 1){ echo "?page=".$page;  } else { echo "?page=".($page - 1); } ?><!--" aria-label="Previous">-->
-<!--                    <span aria-hidden="true">&laquo;</span>-->
-<!--                    <span class="sr-only">Previous</span>-->
-<!--                </a>-->
-<!--            </li>-->
-<!--            --><?php //$i = 1; while ($total_pages >= $i) :?>
-<!--                <li class="page-item"><a class="page-link" href="?page=--><?php //echo $i;?><!--">--><?php //echo $i;?><!--</a></li>-->
-<!--                --><?php //$i++;?>
-<!--            --><?php //endwhile;?>
-<!--            <li class="page-item">-->
-<!--                <a class="page-link" href="--><?php //if($page == $total_pages){ echo "?page=".$page; } else { echo "?page=".($page + 1); } ?><!--" aria-label="Next">-->
-<!--                    <span aria-hidden="true">&raquo;</span>-->
-<!--                    <span class="sr-only">Next</span>-->
-<!--                </a>-->
-<!--            </li>-->
-<!--        </ul>-->
-<!--    </div>-->
-<!--<!--end pagination-->-->
 
 <!--start pagination-->
     <div class="block-pagination">
@@ -182,9 +162,14 @@ foreach ($data as $task) {
         </ul>
     </div>
 <!--end pagination-->
+
 </body>
 <script type="text/javascript">
     $(document).ready(function () {
+        $('.msg').fadeOut( 4000, function(){
+            $(this).hide();
+        });
+
         // open modal window for authorization
         $('#btn-login').on('click', function () {
             $('.modal-window').show();

@@ -11,6 +11,9 @@ class TaskController extends ProtectedController
      */
     public static function create($data)
     {
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("HTTP/1.1 200 OK");
         $data["user_name"] = addslashes($data["user_name"]);
         $user_name = htmlspecialchars($data["user_name"]);
 
@@ -22,16 +25,22 @@ class TaskController extends ProtectedController
 
         self::validation($user_name, $user_email, $description);
 
+        $response = new stdClass();
+
         if(empty(self::getErrors())){
-            self::query("INSERT INTO tasks (user_name, user_email, description) VALUES ('$user_name', '$user_email', '$description')");
-            setcookie("response-status", "OK", time() + 5);
-            setcookie("response-message", "Task was successfully created", time() + 5);
-            header("Location: " . $data["current_url"]);
-        } else {
-            setcookie("response-status", "ERROR", time() + 5);
-            setcookie("response-message", "Task wasn`t created", time() + 5);
-            header("Location: " . $data["current_url"]);
+            $q = self::query("INSERT INTO tasks (user_name, user_email, description) VALUES ('$user_name', '$user_email', '$description')");
+            if($q == null) {
+                $$response->isSuccess = true;
+                $response->message = "Task was successfully created";
+                $_SESSION["response_data"] = serialize($response);
+                header("Location: " . $data["current_url"]);
+            }
         }
+
+        $response->isSuccess = false;
+        $response->message = "Task wasn`t created";
+        $_SESSION["response_data"] = serialize($response);
+        header("Location: " . $data["current_url"]);
     }
 
     public static function changeStatusTask($data)
