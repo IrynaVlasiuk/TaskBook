@@ -14,22 +14,40 @@ $timeout_duration = 1800;
                     <div class="col-md-4 block-sort">
                         <div>User Name</div>
                         <div class="icons-block">
-                            <a class="sort" column="user_name" order="ASC"><i class="fa fa-caret-up"></i></a>
-                            <a class="sort" column="user_name" order="DESC"><i class="fa fa-caret-down"></i></a>
+                            <?php if(($_GET["column"] == "user_name") && ($_GET["order"] == "DESC")):?>
+                                <a class="sort active" column="user_name" order="ASC"><i class="fa fa-caret-up"></i></a>
+                            <?php elseif(($_GET["column"] == "user_name") && ($_GET["order"] == "ASC")):?>
+                                <a class="sort active" column="user_name" order="DESC"><i class="fa fa-caret-down"></i></a>
+                            <?php else:?>
+                                <a class="sort" column="user_name" order="ASC"><i class="fa fa-caret-up"></i></a>
+                                <a class="sort" column="user_name" order="DESC"><i class="fa fa-caret-down"></i></a>
+                            <?php endif;?>
                         </div>
                     </div>
                     <div class="col-md-4 block-sort">
                         <div>User Email</div>
                         <div class="icons-block">
-                             <a class="sort" column="user_email" order="ASC"><i class="fa fa-caret-up"></i></a>
-                             <a class="sort" column="user_email" order="DESC"><i class="fa fa-caret-down"></i></a>
+                            <?php if(($_GET["column"] == "user_email") && ($_GET["order"] == "DESC")):?>
+                                <a class="sort active" column="user_email" order="ASC"><i class="fa fa-caret-up"></i></a>
+                            <?php elseif(($_GET["column"] == "user_email") && ($_GET["order"] == "ASC")):?>
+                                <a class="sort active" column="user_email" order="DESC"><i class="fa fa-caret-down"></i></a>
+                            <?php else:?>
+                                <a class="sort" column="user_email" order="ASC"><i class="fa fa-caret-up"></i></a>
+                                <a class="sort" column="user_email" order="DESC"><i class="fa fa-caret-down"></i></a>
+                            <?php endif;?>
                         </div>
                     </div>
                     <div class="col-md-4 block-sort">
                         <div>Description</div>
                         <div class="icons-block">
+                            <?php if(($_GET["column"] == "description") && ($_GET["order"] == "DESC")):?>
+                                <a class="sort active" column="description" order="ASC"><i class="fa fa-caret-up"></i></a>
+                            <?php elseif(($_GET["column"] == "description") && ($_GET["order"] == "ASC")):?>
+                                <a class="sort active" column="description" order="DESC"><i class="fa fa-caret-down"></i></a>
+                            <?php else:?>
                             <a class="sort" column="description" order="ASC"><i class="fa fa-caret-up"></i></a>
                             <a class="sort" column="description" order="DESC"><i class="fa fa-caret-down"></i></a>
+                            <?php endif;?>
                         </div>
                     </div>
                 </div>
