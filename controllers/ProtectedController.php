@@ -2,9 +2,14 @@
 
 class ProtectedController extends Controller{
 
-    public static function generateJWT($id)
+    /**
+     * @param $id
+     * @param $email
+     * @return string
+     */
+    public static function generateJWT($id, $email)
     {
-        return JWT::generateJWT($id);
+        return JWT::generateJWT($id, $email);
     }
 
     public static function authorize()
@@ -17,6 +22,9 @@ class ProtectedController extends Controller{
         }
     }
 
+    /**
+     * @return string|null
+     */
     private static function getAuthorizationHeader(){
         $headers = null;
         if (isset($_SERVER['Authorization'])) {
@@ -34,6 +42,7 @@ class ProtectedController extends Controller{
         }
         return $headers;
     }
+
     /**
      * get access token from header
      * */

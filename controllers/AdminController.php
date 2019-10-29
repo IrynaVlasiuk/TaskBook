@@ -3,12 +3,10 @@
 
 class AdminController extends ProtectedController
 {
-   public static function index()
-   {
-       $data = self::query("SELECT * FROM tasks AS t GROUP BY t.id");
-       return self::renderView('admin', $data);
-   }
-
+    /**
+     * @param $request
+     * @return mixed
+     */
     public static function editTask($request)
     {
         self::authorize();

@@ -1,6 +1,6 @@
 <?php
 
-if($_GET['url'] == 'index.php') {
+if($_GET['url'] == 'index.php' || $_GET['url'] == 'admin') {
     if(isset($_GET['column']) && isset($_GET['order'])) {
          HomeController::index($_GET['page'], $_GET['column'], $_GET['order']);
     } else {
@@ -21,11 +21,6 @@ Route::set('change-status', function()
 Route::set('login', function()
 {
     AuthController::loginUser($_POST);
-});
-
-Route::set('admin', function()
-{
-    AdminController::index();
 });
 
 Route::set('edit-task', function()

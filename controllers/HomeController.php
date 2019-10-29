@@ -3,6 +3,11 @@
 
 class HomeController extends ProtectedController
 {
+    /**
+     * @param $page
+     * @param $column
+     * @param $order
+     */
     public static function index($page, $column, $order)
     {
         session_start();
@@ -24,6 +29,14 @@ class HomeController extends ProtectedController
             $data =  self::query("SELECT * FROM tasks GROUP BY id LIMIT ".$offset.",". $records_per_page);
         }
 
-        return self::renderView('home', $data, $page, $total_pages, $response);
+        if(isset($_COOKIE['jwt'])){
+           if(JWT::checkValidation($_COOKIE['jwt'])) {
+               $obj = JWT::checkValidation($_COOKIE['jwt']);
+               if($obj->user_email == 'admin') {
+                   $isAdmin = true;
+               }
+           }
+        }
+        return self::renderView('home', $data, $page, $total_pages, $response, $isAdmin);
     }
 }

@@ -10,24 +10,29 @@ class AuthController extends ProtectedController
      */
     public static function loginUser($data)
     {
-        $login = strip_tags($data["login"]);
-        $login = htmlentities($_POST['login'], ENT_QUOTES, "UTF-8");
+        $data["login"] = strip_tags($data["login"]);
+        $data["login"] = htmlentities($_POST['login'], ENT_QUOTES, "UTF-8");
         $login = htmlspecialchars($_POST['login'], ENT_QUOTES);
 
-        $password = strip_tags($data["password"]);
-        $password = htmlentities($_POST['password'], ENT_QUOTES, "UTF-8");
+        $data["password"] = strip_tags($data["password"]);
+        $data["password"] = htmlentities($_POST['password'], ENT_QUOTES, "UTF-8");
         $password = htmlspecialchars($data["password"]);
 
         self::$user = PasswordHandler::getUser($login ,$password);
         self::validate($login ,$password);
 
         if(self::$formErrors == null){
-            setcookie('jwt', self::generateJWT(self::$user[0]["id"]), time()+1800);
+            setcookie('jwt', self::generateJWT(self::$user[0]["id"], self::$user[0]["email"]), time()+1800);
         } else {
             print_r(json_encode(self::getErrors()));
         }
     }
 
+    /**
+     * @param $login
+     * @param $password
+     * @return array|null
+     */
     private static function validate($login ,$password)
     {
         if(empty($login) || empty($password)) {

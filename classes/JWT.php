@@ -7,7 +7,12 @@ class JWT {
     private static $SECRET_KEY = 'Task_Book_Secret_Key';
     private static $ALG = 'HS256';
 
-    public static function generateJWT($user_id)
+    /**
+     * @param $user_id
+     * @param $email
+     * @return string
+     */
+    public static function generateJWT($user_id, $email)
     {
         // Create token header as a JSON string
         $header = json_encode(['typ' => 'JWT', 'alg' => self::$ALG]);
@@ -17,6 +22,7 @@ class JWT {
         // Create token payload as a JSON string
         $payload = json_encode([
             'user_id' => $user_id,
+            'user_email' => $email,
             'exp' => $expire,
             'nbf' => $notBefore
         ]);
@@ -39,6 +45,10 @@ class JWT {
         return $jwt;
     }
 
+    /**
+     * @param $jwt
+     * @return mixed
+     */
     public static function checkValidation($jwt)
     {
         $timestamp = is_null(static::$timestamp) ? time() : static::$timestamp;
@@ -85,6 +95,10 @@ class JWT {
         return $payload;
     }
 
+    /**
+     * @param $input
+     * @return mixed
+     */
     public static function jsonDecode($input)
     {
         if (version_compare(PHP_VERSION, '5.4.0', '>=') && !(defined('JSON_C_VERSION') && PHP_INT_SIZE > 4)) {
@@ -108,6 +122,9 @@ class JWT {
         return $obj;
     }
 
+    /**
+     * @param $errno
+     */
     private static function handleJsonError($errno)
     {
         $messages = array(
@@ -119,6 +136,10 @@ class JWT {
         );
     }
 
+    /**
+     * @param $input
+     * @return false|string
+     */
     public static function urlsafeB64Decode($input)
     {
         $remainder = strlen($input) % 4;

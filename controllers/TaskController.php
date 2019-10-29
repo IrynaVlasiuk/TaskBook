@@ -28,21 +28,22 @@ class TaskController extends ProtectedController
         $response = new stdClass();
 
         if(empty(self::getErrors())){
-            $q = self::query("INSERT INTO tasks (user_name, user_email, description) VALUES ('$user_name', '$user_email', '$description')");
-            if($q == null) {
-                $$response->isSuccess = true;
-                $response->message = "Task was successfully created";
-                $_SESSION["response_data"] = serialize($response);
-                header("Location: " . $data["current_url"]);
-            }
+            self::query("INSERT INTO tasks (user_name, user_email, description) VALUES ('$user_name', '$user_email', '$description')");
+            $response->isSuccess = true;
+            $response->message = "Task was successfully created";
+            $_SESSION["response_data"] = serialize($response);
+            header("Location: " . $data["current_url"]);
+        } else {
+            $response->isSuccess = false;
+            $response->message = "Task wasn`t created";
+            $_SESSION["response_data"] = serialize($response);
+            header("Location: " . $data["current_url"]);
         }
-
-        $response->isSuccess = false;
-        $response->message = "Task wasn`t created";
-        $_SESSION["response_data"] = serialize($response);
-        header("Location: " . $data["current_url"]);
     }
 
+    /**
+     * @param $data
+     */
     public static function changeStatusTask($data)
     {
         if(!is_numeric($data["task_id"])) {
@@ -57,6 +58,12 @@ class TaskController extends ProtectedController
         self::query("UPDATE tasks SET done = '$done' WHERE id='$task_id'");
     }
 
+    /**
+     * @param $user_name
+     * @param $user_email
+     * @param $description
+     * @return array
+     */
     private static function validation($user_name, $user_email, $description)
     {
         if(empty($user_name) || empty($user_email) || empty($description)) {
