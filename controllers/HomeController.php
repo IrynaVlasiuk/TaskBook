@@ -23,12 +23,12 @@ class HomeController extends ProtectedController
         $total_pages_sql = (int)self::query("SELECT COUNT(*) FROM tasks");
         $total_pages = (int)ceil($total_pages_sql / $records_per_page);
 
-        if(!empty($column) && !empty($order)) {
-            $data =  self::query("SELECT * FROM tasks ORDER BY ". $column ." ". $order." LIMIT ".$offset.",". $records_per_page);
-        } else {
-            $data =  self::query("SELECT * FROM tasks GROUP BY id LIMIT ".$offset.",". $records_per_page);
-        }
-
+//        if(!empty($column) && !empty($order)) {
+//            $data =  self::query("SELECT * FROM tasks ORDER BY ". $column ." ". $order." LIMIT ".$offset.",". $records_per_page);
+//        } else {
+//            $data =  self::query("SELECT * FROM tasks GROUP BY id LIMIT ".$offset.",". $records_per_page);
+//        }
+        $data = self::query("SELECT * FROM tasks GROUP BY id");
         if(isset($_COOKIE['jwt'])){
            if(JWT::checkValidation($_COOKIE['jwt'])) {
                $obj = JWT::checkValidation($_COOKIE['jwt']);

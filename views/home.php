@@ -10,47 +10,6 @@ $timeout_duration = 1800;
     <div class="top-panel">
         <div class="row">
             <div class="col-md-10">
-                <div class="row">
-                    <div class="col-md-4 block-sort">
-                        <div>User Name</div>
-                        <div class="icons-block">
-                            <?php if(($_GET["column"] == "user_name") && ($_GET["order"] == "DESC")):?>
-                                <a class="sort active" column="user_name" order="ASC"><i class="fa fa-caret-up"></i></a>
-                            <?php elseif(($_GET["column"] == "user_name") && ($_GET["order"] == "ASC")):?>
-                                <a class="sort active" column="user_name" order="DESC"><i class="fa fa-caret-down"></i></a>
-                            <?php else:?>
-                                <a class="sort" column="user_name" order="ASC"><i class="fa fa-caret-up"></i></a>
-                                <a class="sort" column="user_name" order="DESC"><i class="fa fa-caret-down"></i></a>
-                            <?php endif;?>
-                        </div>
-                    </div>
-                    <div class="col-md-4 block-sort">
-                        <div>User Email</div>
-                        <div class="icons-block">
-                            <?php if(($_GET["column"] == "user_email") && ($_GET["order"] == "DESC")):?>
-                                <a class="sort active" column="user_email" order="ASC"><i class="fa fa-caret-up"></i></a>
-                            <?php elseif(($_GET["column"] == "user_email") && ($_GET["order"] == "ASC")):?>
-                                <a class="sort active" column="user_email" order="DESC"><i class="fa fa-caret-down"></i></a>
-                            <?php else:?>
-                                <a class="sort" column="user_email" order="ASC"><i class="fa fa-caret-up"></i></a>
-                                <a class="sort" column="user_email" order="DESC"><i class="fa fa-caret-down"></i></a>
-                            <?php endif;?>
-                        </div>
-                    </div>
-                    <div class="col-md-4 block-sort">
-                        <div>Description</div>
-                        <div class="icons-block">
-                            <?php if(($_GET["column"] == "description") && ($_GET["order"] == "DESC")):?>
-                                <a class="sort active" column="description" order="ASC"><i class="fa fa-caret-up"></i></a>
-                            <?php elseif(($_GET["column"] == "description") && ($_GET["order"] == "ASC")):?>
-                                <a class="sort active" column="description" order="DESC"><i class="fa fa-caret-down"></i></a>
-                            <?php else:?>
-                            <a class="sort" column="description" order="ASC"><i class="fa fa-caret-up"></i></a>
-                            <a class="sort" column="description" order="DESC"><i class="fa fa-caret-down"></i></a>
-                            <?php endif;?>
-                        </div>
-                    </div>
-                </div>
             </div>
             <?php if(!$isAdmin):?>
             <div class="col-md-1">
@@ -163,66 +122,60 @@ $timeout_duration = 1800;
 <!--end of modal window-->
 
     <div class="title">Tasks List</div>
-    <div class="container">
-     <?php if(!empty($response)):?>
-         <?php if($response->isSuccess) : ?>
-         <div class="success msg"><?php echo $response->message; ?></div>
-         <?php else:?>
-         <div class="error msg"><?php echo $response->message; ?></div>
+    <?php if(!empty($response)):?>
+        <?php if($response->isSuccess) : ?>
+            <div class="success msg"><?php echo $response->message; ?></div>
+        <?php else:?>
+            <div class="error msg"><?php echo $response->message; ?></div>
         <?php endif;?>
-     <?php endif;?>
-<?php
-if(is_array($data)) :
-foreach ($data as $task) {
-    ?>
-    <div class="row item">
-        <div class="col-md-8 mx-auto">
-            <?php echo $task["edited"] ? "<div class='block-mark'>Edited by admin</div>": ""; ?>
-            <div class="item-title">Author name</div>
-            <div><?php echo $task["user_name"]; ?></div>
-            <div class="item-title">Author email</div>
-            <div><?php echo $task["user_email"]; ?></div>
-            <div class="item-title">Task description</div>
-            <div class="description"><?php echo $task["description"]; ?></div>
-            <label class="item-title">Done</label>
-            <input type="checkbox" class="check-done" task_id="<?php echo $task["id"]; ?>" <?php echo $task["done"] == 1 ? "checked": ""?> >
-            <?php if($isAdmin):?>
-            <button type="button" class="edit-task" task_id="<?php echo $task["id"]; ?>">Edit</button>
-            <?php endif;?>
-        </div>
-    </div>
-<?php
-}
-endif;
-?>
-</div>
+    <?php endif;?>
+    <div class="container">
 
-<!--start pagination-->
-    <div class="block-pagination">
-        <ul class="pagination justify-content-center">
-            <li class="page-item">
-                <a class="page-link" page="<?php if($page == 1){ echo $page;  } else { echo ($page - 1); } ?>" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                    <span class="sr-only">Previous</span>
-                </a>
-            </li>
-            <?php $i = 1; while ($total_pages >= $i) :?>
-                <li class="page-item"><a class="page-link" page="<?php echo $i;?>"><?php echo $i;?></a></li>
-                <?php $i++;?>
-            <?php endwhile;?>
-            <li class="page-item">
-                <a class="page-link" page="<?php if($page == $total_pages){ echo $page; } else { echo ($page + 1); } ?>" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </li>
-        </ul>
-    </div>
-<!--end pagination-->
+    <table id="dtTasks" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+        <thead>
+        <tr>
+            <th class="th-sm">Author Name
+            </th>
+            <th class="th-sm">Author email
+            </th>
+            <th class="th-sm">Description
+            </th>
+            <th class="th-sm">Done
+            </th>
+            <th class="th">Edit by admin
+            </th>
+            <?php if($isAdmin): ?>
+            <th class="th">Edit
+            </th>
+            <?php endif;?>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($data as $task) :?>
+        <tr>
+            <td><?php echo $task["user_name"]; ?></td>
+            <td><?php echo $task["user_email"]; ?></td>
+            <td class="description"><?php echo $task["description"]; ?></td>
+            <td><input type="checkbox" class="check-done" task_id="<?php echo $task["id"]; ?>" <?php echo $task["done"] == 1 ? "checked": ""?> ></td>
+            <td><?php echo $task["edited"] ? "<div class='block-mark'>Edited by admin</div>": ""; ?></td>
+            <?php if($isAdmin): ?>
+            <td class="td-btn"><button type="button" class="edit-task" task_id="<?php echo $task["id"]; ?>">Edit</button></td>
+            <?php endif;?>
+        </tr>
+        <?php endforeach; ?>
+    </table>
+
+</div>
 
 </body>
 <script type="text/javascript">
     $(document).ready(function () {
+        $('#dtTasks').DataTable({
+            pageLength : 3,
+            searchable: false,
+            orderable: false,
+        });
+
         $('.msg').fadeOut( 4000, function(){
             $(this).hide();
         });
@@ -302,10 +255,11 @@ endif;
 
         //open modal window for editing task
         $('.edit-task').on('click', function () {
-            let description = $(this).siblings('.description').text();
+            let description = $(this).parent().parent().find('.description').text();
             let id = $(this).attr('task_id');
             $('#edit-window').show();
-            $('#edit-window #description').text(description);
+            $('#edit-window #description').text('').text(description);
+            //$('#edit-window #description').text(description);
             $('#edit-window .span-hidden').text(id);
         });
 
@@ -350,7 +304,7 @@ endif;
                 //close modal window
                 $('#edit-window').hide();
                 //render new description
-                $(".edit-task[task_id='"+data.data[0].id+"']").siblings('.description').text(data.data[0].description);
+                $(".edit-task[task_id='"+data.data[0].id+"']").parent().parent().find('.description').text(data.data[0].description);
             }
         }
 

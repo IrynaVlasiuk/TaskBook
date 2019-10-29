@@ -28,14 +28,12 @@
     margin-right: 25px;
 }
 
-.item .edit-task {
-    float: right;
+.edit-task {
     border-radius: 5px;
     border: 1px solid gray;
     background-color: #808080;
-    height: 40px;
-    width: 75px;
-    margin-top: 35px;
+    height: 34px;
+    width: 60px;
     color: #FFFFFF;
     -webkit-appearance: none;
 }
@@ -102,7 +100,7 @@
 
 .block-mark {
     float: right;
-    height: 28px;
+    height: 25px;
     width: 130px;
     background-color: green;
     border-radius: 6px;
@@ -165,4 +163,34 @@
     margin-top: 6px;
 }
 
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting:before,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_asc:before,
+table.dataTable thead .sorting_asc_disabled:after,
+table.dataTable thead .sorting_asc_disabled:before,
+table.dataTable thead .sorting_desc:after,
+table.dataTable thead .sorting_desc:before,
+table.dataTable thead .sorting_desc_disabled:after,
+table.dataTable thead .sorting_desc_disabled:before {
+    bottom: .5em;
+}
 
+#dtTasks_length, #dtTasks_info {
+    display: none;
+}
+
+#dtTasks_paginate {
+    margin-top: 40px;
+    text-align: center;
+    left: 0;
+    float: inherit;
+}
+
+table.dataTable thead .sorting:nth-child(5), table.dataTable thead .sorting:nth-child(6) {
+    background-image:none;
+}
+
+.td-btn {
+    text-align: center;
+}
