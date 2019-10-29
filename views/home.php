@@ -258,8 +258,7 @@ $timeout_duration = 1800;
             let description = $(this).parent().parent().find('.description').text();
             let id = $(this).attr('task_id');
             $('#edit-window').show();
-            $('#edit-window #description').text('').text(description);
-            //$('#edit-window #description').text(description);
+            $('#edit-window #description').val(description);
             $('#edit-window .span-hidden').text(id);
         });
 
