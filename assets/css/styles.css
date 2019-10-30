@@ -103,7 +103,7 @@
     height: 25px;
     width: 130px;
     background-color: green;
-    border-radius: 6px;
+    border-radius: 5px;
     text-align: center;
     color: white;
 }
@@ -116,6 +116,7 @@
     border-radius: 2px;
     position: absolute;
     right: 0;
+    top:105px;
 }
 
 .error.msg {
@@ -176,10 +177,6 @@ table.dataTable thead .sorting_desc_disabled:before {
     bottom: .5em;
 }
 
-#dtTasks_length, #dtTasks_info {
-    display: none;
-}
-
 #dtTasks_paginate {
     margin-top: 40px;
     text-align: center;
@@ -193,4 +190,22 @@ table.dataTable thead .sorting:nth-child(5), table.dataTable thead .sorting:nth-
 
 .td-btn {
     text-align: center;
+}
+
+.btn-add-task {
+    position: relative;
+}
+
+.btn-add-task .add-task {
+    position: absolute;
+    right: 0;
+    top: -100px;
+}
+
+#dtTasks_paginate {
+    margin-top: 80px;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 0.25em 0.7em;
 }

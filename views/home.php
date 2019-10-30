@@ -12,10 +12,7 @@ $timeout_duration = 1800;
             <div class="col-md-10">
             </div>
             <?php if(!$isAdmin):?>
-            <div class="col-md-1">
-                <button class="add-task" data-toggle="modal" data-target="#modal-add-task">New Task</button>
-            </div>
-            <div class="col-md-1">
+            <div class="col-md-2">
                 <button class="login" data-toggle="modal" data-target="#modal-window">Login</button>
             </div>
             <?php else:?>
@@ -142,10 +139,10 @@ $timeout_duration = 1800;
             </th>
             <th class="th-sm">Done
             </th>
-            <th class="th">Edit by admin
+            <th class="no-sort">Edit by admin
             </th>
             <?php if($isAdmin): ?>
-            <th class="th">Edit
+            <th class="no-sort">Edit
             </th>
             <?php endif;?>
         </tr>
@@ -164,6 +161,11 @@ $timeout_duration = 1800;
         </tr>
         <?php endforeach; ?>
     </table>
+    <?php if(!$isAdmin):?>
+        <div class="btn-add-task">
+            <button class="add-task" data-toggle="modal" data-target="#modal-add-task">New Task</button>
+        </div>
+    <?php endif;?>
 
 </div>
 
@@ -173,7 +175,19 @@ $timeout_duration = 1800;
         $('#dtTasks').DataTable({
             pageLength : 3,
             searchable: false,
-            orderable: false,
+            searching: false,
+            lengthChange: false,
+            bLengthChange: false,
+            "bFilter": true,
+            "bInfo": false,
+            "columnDefs": [
+                { "orderable": false,
+                    "targets": 3,
+                },
+                { "orderable": false,
+                    "targets": 4,
+                },
+            ]
         });
 
         $('.msg').fadeOut( 4000, function(){
@@ -205,56 +219,15 @@ $timeout_duration = 1800;
         }
 
         //change status 'done' of task
-        $('.check-done').on('click', function () {
+        $('#dtTasks tbody').on('click', '.check-done', function () {
             let id = $(this).attr('task_id');
             let done = $(this).is(":checked") ? 1: 0 ;
             let data = { task_id:id, done: done };
             ajaxHandler('POST', 'change-status', data);
         });
 
-        // sorting tasks
-        $('.sort').on('click', function() {
-            let column = $(this).attr('column');
-            let order = $(this).attr('order');
-            let parameters = "?";
-            let page = getParameterFromCurrentUrl("page");
-
-            if(page != null) {
-                parameters += "page=" + page + "&";
-            }
-
-            parameters += "column=" + column + "&order=" + order;
-
-            let urlToRedirect =  "/index.php" + parameters;
-
-            window.location.replace(urlToRedirect);
-        });
-
-        $('.page-link').on('click', function() {
-            let page = $(this).attr('page');
-            let searchParams= new URLSearchParams(window.location.search);
-            let parameters = "?";
-            let current_page = getParameterFromCurrentUrl("page");
-            let urlToRedirect = "";
-            if(current_page == null) {
-                parameters += "page=" + page + "&" + searchParams;
-                urlToRedirect =  "/index.php" + parameters;
-            } else {
-                let url = window.location.href;
-                urlToRedirect = url.replace(/(page=).*?(&)/,'$1' + page + '$2');
-            }
-             window.location.replace(urlToRedirect);
-        });
-
-         function getParameterFromCurrentUrl(parameter) {
-             let url = new URL(window.location.href);
-             let query_string = url.search;
-             let search_params = new URLSearchParams(query_string);
-             return search_params.get(parameter);
-         }
-
         //open modal window for editing task
-        $('.edit-task').on('click', function () {
+        $('#dtTasks tbody').on('click', '.edit-task', function () {
             let description = $(this).parent().parent().find('.description').text();
             let id = $(this).attr('task_id');
             $('#edit-window').show();
